@@ -1,0 +1,94 @@
+/*
+ *
+ */
+
+// Compile with  g++ CS3333_Asn4.cpp `pkg-config --libs opencv`
+
+#include <stdio.h>
+ #include <fstream>
+#include <iostream>
+#include "opencv2/core/core.hpp"
+#include <opencv2/opencv.hpp>
+#include "opencv2/features2d/features2d.hpp"
+#include "opencv2/highgui/highgui.hpp"
+#include "opencv2/calib3d/calib3d.hpp"
+#include "opencv2/nonfree/nonfree.hpp"
+#include "opencv2/imgproc/imgproc.hpp"
+
+using namespace cv;
+using namespace std;
+
+Mat matchStitchX(Mat img1, Mat img2){
+	int i, j, minHessian;
+	//Set Hessian between 300 and 500
+	minHessian = 400;
+	std::vector<KeyPoint> keyPoint1, keyPoint2;
+	//Initialize the surf feature detector
+	SurfFeatureDetector fDetector(minHessian);
+	fDetector.detect(img1,keyPoint1);
+	fDetector.detect(img2,keyPoint2);
+	//Calculate the local feature descriptors
+	SurfDescriptorExtractor fExtractor;
+	Mat img1Descriptor, img2Descriptor;
+	fExtractor.compute(img1, keyPoint1, img1Descriptor);
+	fExtractor.compute(img2, keyPoint2, img2Descriptor);
+	//Using the Flann library to find matches
+  	FlannBasedMatcher matcher;
+  	std::vector<DMatch> imgMatches;
+  	matcher.match(img1Descriptor, img2Descriptor, imgMatches);
+  	//Finding distances between keypoints
+  	double max_dist = 0; double min_dist = 100;
+  	double dist;
+	for(i = 0; i < img1Descriptor.rows; i++ ){
+	  	dist = imgMatches[i].distance;
+		if( dist < min_dist ) min_dist = dist;
+		if( dist > max_dist ) max_dist = dist;
+	}
+	std::vector<DMatch> imgMatchesF;
+  	for( int i = 0; i < img1Descriptor.rows; i++ ){
+  		if( imgMatches[i].distance < 3*min_dist ){
+  		 	imgMatchesF.push_back(imgMatches[i]); 
+  		}
+  	}
+  	//Localize the object
+  	std::vector<Point2f> img1V;
+  	std::vector<Point2f> img2V;
+  	for(i = 0; i < imgMatchesF.size(); i++)
+  	{
+    	//Get the keypoints from the good matches
+    	img1V.push_back(keyPoint1[imgMatchesF[i].queryIdx].pt);
+    	img2V.push_back(keyPoint2[imgMatchesF[i].trainIdx].pt);
+ 	}
+  	Mat H = findHomography(img1V, img2V, CV_RANSAC);
+  	std::vector<Point2f> img1Corners(4);
+  	img1Corners[0] = cvPoint(0,0); 
+  	img1Corners[1] = cvPoint(img1.cols, 0);
+  	img1Corners[2] = cvPoint(img1.cols, img1.rows); 
+  	img1Corners[3] = cvPoint(0, img1.rows);
+  	std::vector<Point2f> img2Corners(4);
+  	perspectiveTransform(img1Corners, img2Corners, H);
+	Mat warpImage;
+  	warpPerspective(img1,warpImage,H,Size(img2.cols, img2.rows));
+	img2.copyTo(warpImage,img2);
+  	return warpImage;
+}
+
+int main(int argc, char** argv){
+	int i, j, numImages;
+	//Set Hessian between 300 and 500
+	numImages = argc - 1;
+	Mat images[numImages];
+	//Read in all images
+	for(i =0; i< numImages; i++){
+		images[i] = imread(argv[i+1],CV_LOAD_IMAGE_GRAYSCALE);
+	}
+	//Put first image in center of image of double its size
+	Mat result(images[0].rows*2,images[0].cols*2,images[0].type());
+	images[0].copyTo(result(Rect(images[0].cols/2, images[0].rows/2, images[0].cols, images[0].rows)));
+	//Stitch images over and over again
+	for(i=1;i<numImages;i++){
+		result = matchStitchX(images[i],result);
+	}
+	imwrite("result.jpg", result);
+	return(0);
+}

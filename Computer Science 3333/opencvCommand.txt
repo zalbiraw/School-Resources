@@ -1,0 +1,1 @@
+g++ cv1.cpp `pkg-config --libs opencv`
