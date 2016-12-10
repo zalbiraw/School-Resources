@@ -1,0 +1,30 @@
+# Select the zalbirawdb database
+USE zalbirawdb;
+
+# Create a view that shows the customer first name, last name, the movie names they have seen and the rating they gave the movies.  IF they saw the same movie more than once, show the average rating for the movie.  Then show all the rows in this view.
+CREATE VIEW v AS
+SELECT 
+c.first AS 'First Name', 
+c.last AS 'Last Name', 
+m.title AS 'Title',
+SUM(t.rating)/COUNT(t.rating) AS 'Rating'
+FROM Tickets t
+JOIN Customers c
+JOIN Showings s
+JOIN Movies m
+ON (t.customer_id = c.id AND t.showing_id = s.id AND s.movie_id = m.id)
+GROUP BY c.first, c.last, m.title;
+
+SELECT * FROM v;
+
+# Delete any customer whose last name is "Trump". Show any tables affected by this deletion before and after the deletion.
+SELECT * FROM Customers;
+DELETE FROM Customers WHERE last = 'Trump';
+SELECT * FROM Customers;
+
+# Delete room 3 from the theatre table. NOTE: if you can't delete this row, show what you had to do in order to eventually delete the row.
+UPDATE Showings
+SET theatre_id = 1
+WHERE theatre_id = 3
+DELETE FROM Theatres WHERE id = 3;
+SELECT * FROM Theatres;

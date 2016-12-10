@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Movies - Customer</title>
+	<link rel="stylesheet" href="../../../static/styles/reset.css">
+	<link rel="stylesheet" href="../../../static/styles/customer/styles.css">
+
+	<!--Import Google Icon Font-->
+	<link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<!-- Compiled and minified CSS -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
+
+	<!--Let browser know website is optimized for mobile-->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+</head>
+<body>
+	<div class="navbar-fixed">
+		<nav>
+			<ul id="extra" class="dropdown-content">
+				<li>
+					<a href="../search/">Advanced Search</a>
+				</li>
+			</ul>
+			<div class="container">
+				<div class="nav-wrapper">
+					<ul id="nav-mobile">
+						<li class="active">
+							<a href="../home/">Home</a>
+						</li>
+					</ul>
+					<form>
+						<div class="input-field">
+							<input id="search" name="title" type="search" placeholder="movie title..." required>
+							<label for="search"><i class="material-icons">search</i></label>
+							<i class="material-icons">close</i>
+						</div>
+					</form>
+					<ul id="nav-mobile">
+						<li>
+							<a class="dropdown-button" href="#" data-activates="extra">...</a>
+						</li>
+						<li>
+							<a href="../account/"><i class="material-icons">account_circle</i></a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+	</div>
+	<div class="container">
+		<div class="row">
+			{% for showing in showings %}
+			<div class="col m12 l6">
+				<div class="card horizontal">
+					{% if showing.10 != None %}
+					<div class="card-image">
+						<img src="../../../static/images/{{ showing.10 }}">
+					</div>
+					{% endif %}
+					<div class="card-stacked">
+						<div class="card-content">
+							<div class="movie-title">
+								{{ showing.4 }}
+								<span class="year">({{ showing.5 }})</span>
+							</div>
+							<div class="movie-date">
+								<span>Date:</span> {{ showing.1 }}
+							</div>
+							<div class="movie-time">
+								<span>Time:</span> {{ showing.2 }}
+							</div>
+							<div class="ticket-price">
+								<span>Price:</span> ${{ showing.3 }}
+							</div>
+							<div class="ticket-sold">
+								{% if showing.6 != None and showing.6 >= showing.7 %}
+									<span>Sold:</span> 
+									{{ showing.6 }}/{{ showing.7 }} SOLD OUT!
+								{% else %}
+									<span>Sold:</span>
+									{{ showing.6 }}/{{ showing.7 }}
+								{% endif %}
+							</div>
+						</div>
+						{% if showing.6 != None and showing.6 >= showing.7 %}
+						<input class="buy-ticket disable" type="checkbox" >
+						<div class="card-action">
+							<label>Sold Out!</label>
+						</div>
+						{% elif showing.8 != None %}
+						<div class="card-action">
+							<label>Purchased</label>
+						</div>
+						{% else %}
+						<form action="../../attend">
+							<input id="showing_id" class="buy-ticket" type="text" name="showing_id" value="{{ showing.0 }}">
+							<input id="cust_id" class="buy-ticket" type="text" name="cust_id" value="{{ id }}">
+							<input id="submit" type="submit" class="btn-large waves-effect waves-light" name="submit" value="Buy ticket" />
+						</form>
+						{% endif %}
+					</div>
+				</div>
+			</div>
+			{% endfor %}
+		</div>
+	</div>
+	<!--Import jQuery before materialize.js-->
+	<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
+</body>
+</html>

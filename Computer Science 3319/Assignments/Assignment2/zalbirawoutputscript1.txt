@@ -1,0 +1,212 @@
+--------------
+SHOW databases
+--------------
+
+Database
+information_schema
+mysql
+performance_schema
+zalbirawdb
+--------------
+DROP DATABASE IF EXISTS zalbirawdb
+--------------
+
+--------------
+CREATE DATABASE zalbirawdb
+--------------
+
+--------------
+SHOW TABLES
+--------------
+
+--------------
+CREATE TABLE Movies (
+  id            VARCHAR(3)    PRIMARY KEY,
+  title         VARCHAR(50),
+  year          YEAR
+)
+--------------
+
+--------------
+CREATE TABLE Genres (
+  movie_id      VARCHAR(3),
+  FOREIGN KEY   (movie_id)    REFERENCES Movies (id),
+
+  genre         TEXT
+)
+--------------
+
+--------------
+CREATE TABLE Theatres (
+  id            INT           PRIMARY KEY,
+  capacity      INT
+)
+--------------
+
+--------------
+CREATE TABLE Customers (
+  id            VARCHAR(3)    PRIMARY KEY,
+  first         VARCHAR(30),
+  last          VARCHAR(30),
+  sex           VARCHAR(1),
+  email         VARCHAR(254)
+)
+--------------
+
+--------------
+CREATE TABLE Showings (
+  movie_id      VARCHAR(3),
+  theatre_id    INT,
+  FOREIGN KEY   (movie_id)    REFERENCES Movies (id),
+  FOREIGN KEY   (theatre_id)  REFERENCES Theatres (id),
+
+  id            VARCHAR(3)    PRIMARY KEY,
+  date          DATE,
+  time          TIME
+)
+--------------
+
+--------------
+CREATE TABLE Tickets (
+  customer_id   VARCHAR(3),
+  showing_id    VARCHAR(3),
+  FOREIGN KEY   (customer_id) REFERENCES Customers (id),
+  FOREIGN KEY   (showing_id)  REFERENCES Showings (id),
+
+  PRIMARY KEY   (customer_id, showing_id),
+  price         DECIMAL,
+  rating        INT
+)
+--------------
+
+--------------
+CREATE PROCEDURE validate_field_length (IN field TEXT, IN Obj TEXT)
+BEGIN
+
+  DECLARE msg TEXT;
+  SET msg = CONCAT('Unable to insert into/update the ', Obj, ' table. Varibale length requirements are not met.');
+
+  IF (LENGTH(field) < 1) THEN
+    SIGNAL SQLSTATE '45000'
+      SET MESSAGE_TEXT = msg;
+  END IF;
+
+END
+--------------
+
+--------------
+CREATE PROCEDURE validate_movie_fields (IN title VARCHAR(50))
+  CALL validate_field_length(title, 'Movies')
+--------------
+
+--------------
+CREATE PROCEDURE validate_customer_fields (IN first VARCHAR(30), IN last VARCHAR(30))
+BEGIN
+  CALL validate_field_length(first, 'Customers');
+  CALL validate_field_length(last, 'Customers');
+END
+--------------
+
+--------------
+CREATE PROCEDURE validate_theatre_fields (IN capacity INT)
+BEGIN
+  
+  IF (capacity < 0) THEN
+    SIGNAL SQLSTATE '45000'
+      SET MESSAGE_TEXT = 'Error, capacity is less than zero.';
+  END IF;
+
+END
+--------------
+
+--------------
+CREATE PROCEDURE validate_theatre_deletion (IN id INT)
+BEGIN
+  
+  IF (SELECT COUNT(*) FROM Showings Where theatre_id=id > 0) THEN
+    SIGNAL SQLSTATE '45000'
+      SET MESSAGE_TEXT = 'Unable to delete theatre, remove showing association first.';
+  END IF;
+
+END
+--------------
+
+--------------
+CREATE TRIGGER insert_movie
+BEFORE INSERT
+ON Movies
+FOR EACH ROW
+  CALL validate_movie_fields (NEW.title)
+--------------
+
+--------------
+CREATE TRIGGER update_movie
+BEFORE UPDATE
+ON Movies
+FOR EACH ROW
+  CALL validate_movie_fields (NEW.title)
+--------------
+
+--------------
+CREATE TRIGGER insert_theatre
+BEFORE INSERT
+ON Theatres
+FOR EACH ROW
+  CALL validate_theatre_fields (NEW.capacity)
+--------------
+
+--------------
+CREATE TRIGGER update_theatre
+BEFORE UPDATE
+ON Theatres
+FOR EACH ROW
+  CALL validate_theatre_fields (NEW.capacity)
+--------------
+
+--------------
+CREATE TRIGGER delete_theatre
+BEFORE DELETE
+ON Theatres
+FOR EACH ROW
+  CALL validate_theatre_deletion (OLD.id)
+--------------
+
+--------------
+CREATE TRIGGER insert_customer
+BEFORE INSERT
+ON Customers
+FOR EACH ROW
+  CALL validate_customer_fields (NEW.first, NEW.last)
+--------------
+
+--------------
+CREATE TRIGGER update_customer
+BEFORE UPDATE
+ON Customers
+FOR EACH ROW
+  CALL validate_customer_fields (NEW.first, NEW.last)
+--------------
+
+--------------
+CREATE TRIGGER delete_customer
+BEFORE DELETE
+ON Customers
+FOR EACH ROW
+BEGIN
+
+  DELETE FROM Tickets WHERE customer_id=OLD.id;
+
+END
+--------------
+
+--------------
+SHOW TABLES
+--------------
+
+Tables_in_zalbirawdb
+Customers
+Genres
+Movies
+Showings
+Theatres
+Tickets

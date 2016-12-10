@@ -1,0 +1,214 @@
+--------------
+LOAD DATA INFILE 'movies.txt' INTO TABLE Movies
+  FIELDS TERMINATED BY ','
+  (id, title, year)
+--------------
+
+--------------
+INSERT INTO Movies (id, title, year) VALUES ('112', 'Interstellar', 2014)
+--------------
+
+--------------
+SELECT * FROM Movies
+--------------
+
+id	title	year
+100	Star Wars	1977
+101	Up	2009
+102	Pulp Fiction	1994
+103	Aloha	2015
+104	The Martian	2015
+105	The Empire Strikes Back	1980
+106	Midnight In The Garden Of Good and Evil	1997
+107	Tommy Boy	1995
+108	Die Hard	1988
+109	There's Something About Mary	1998
+110	Two Weeks Notice	2002
+111	Back To The Future	1985
+112	Interstellar	2014
+--------------
+INSERT INTO Customers 
+  (id, first, last, sex, email)
+VALUES 
+  ('222', 'Will',     'Beldman',  'M', 'wbeldma@uwo.ca'),
+  ('223', 'Zaid',     'Albirawi', 'M', 'zalbiraw@uwo.ca'),
+  ('224', 'Bill',     'Clinton',  'M', 'billy@prez.com'),
+  ('225', 'Hillary',  'Clinton',  'F', 'nextprezmaybe@prez.com'),
+  ('226', 'Donald',   'Trump',    'M', 'nextprezalso@prez.com'),
+  ('227', 'Gary',     'Johnson',  'M', 'nextpreztoo@prez.com'),
+  ('228', 'Jill',     'Stein',    'F', 'nextprezaswell@prez.com'),
+  ('229', 'Barack',   'Obama',    'M', 'lastprez@prez.com')
+--------------
+
+--------------
+SELECT * FROM Customers
+--------------
+
+id	first	last	sex	email
+222	Will	Beldman	M	wbeldma@uwo.ca
+223	Zaid	Albirawi	M	zalbiraw@uwo.ca
+224	Bill	Clinton	M	billy@prez.com
+225	Hillary	Clinton	F	nextprezmaybe@prez.com
+226	Donald	Trump	M	nextprezalso@prez.com
+227	Gary	Johnson	M	nextpreztoo@prez.com
+228	Jill	Stein	F	nextprezaswell@prez.com
+229	Barack	Obama	M	lastprez@prez.com
+--------------
+INSERT INTO Genres
+  (movie_id, genre)
+VALUES
+  ('100', 'Action'),
+  ('100', 'SciFi'),
+  ('101', 'Animated'),
+  ('102', 'Action'),
+  ('103', 'Romance'),
+  ('104', 'Action'),
+  ('104', 'SciFi'),
+  ('105', 'Action'),
+  ('105', 'SciFi'),
+  ('106', 'Drama'),
+  ('107', 'Comedy'),
+  ('108', 'Action'),
+  ('109', 'Comedy'),
+  ('110', 'Comedy'),
+  ('110', 'Romance'),
+  ('111', 'SciFi'),
+  ('111', 'Action'),
+  ('111', 'Comedy'),
+  ('112', 'SciFi')
+--------------
+
+--------------
+SELECT * FROM Genres
+--------------
+
+movie_id	genre
+100	Action
+100	SciFi
+101	Animated
+102	Action
+103	Romance
+104	Action
+104	SciFi
+105	Action
+105	SciFi
+106	Drama
+107	Comedy
+108	Action
+109	Comedy
+110	Comedy
+110	Romance
+111	SciFi
+111	Action
+111	Comedy
+112	SciFi
+--------------
+INSERT INTO Theatres
+  (id, capacity)
+VALUES
+  (1, 30),
+  (2, 5),
+  (3, 100),
+  (4, 30),
+  (5, 6)
+--------------
+
+--------------
+SELECT * FROM Theatres
+--------------
+
+id	capacity
+1	30
+2	5
+3	100
+4	30
+5	6
+--------------
+INSERT INTO Showings
+  (movie_id, id, date, time, theatre_id)
+VALUES
+  ('100', '333', '2016-02-11', '21:30', '1'),
+  ('100', '334', '2016-02-11', '19:30', '2'),
+  ('101', '335', '2016-02-11', '19:00', '3'),
+  ('102', '337', '2016-03-12', '19:00', '1'),
+  ('103', '338', '2016-03-12', '21:00', '1'),
+  ('103', '339', '2016-03-13', '19:00', '2'),
+  ('103', '340', '2016-03-20', '19:00', '1'),
+  ('104', '341', '2016-03-20', '21:00', '1'),
+  ('107', '346', '2016-03-22', '20:30', '2'),
+  ('108', '345', '2016-03-22', '21:00', '3'),
+  ('109', '342', '2016-03-20', '19:00', '2'),
+  ('110', '344', '2016-03-21', '19:00', '1'),
+  ('110', '347', '2016-03-23', '22:00', '1'),
+  ('111', '336', '2016-02-11', '21:00', '2'),
+  ('112', '348', '2016-01-11', '8:30', '3')
+--------------
+
+--------------
+SELECT * FROM Showings
+--------------
+
+movie_id	theatre_id	id	date	time
+100	1	333	2016-02-11	21:30:00
+100	2	334	2016-02-11	19:30:00
+101	3	335	2016-02-11	19:00:00
+111	2	336	2016-02-11	21:00:00
+102	1	337	2016-03-12	19:00:00
+103	1	338	2016-03-12	21:00:00
+103	2	339	2016-03-13	19:00:00
+103	1	340	2016-03-20	19:00:00
+104	1	341	2016-03-20	21:00:00
+109	2	342	2016-03-20	19:00:00
+110	1	344	2016-03-21	19:00:00
+108	3	345	2016-03-22	21:00:00
+107	2	346	2016-03-22	20:30:00
+110	1	347	2016-03-23	22:00:00
+112	3	348	2016-01-11	08:30:00
+--------------
+INSERT INTO Tickets
+  (showing_id, rating, price, customer_id)
+VALUES
+  ('333', '5', '4.00',    '222'),
+  ('340', '1', '12.00',   '222'),
+  ('334', '3', '10.00',   '222'),
+  ('346', '4', '5.00',    '222'),
+  ('334', '5', '30.00',   '223'),
+  ('340', '1', '5.00',    '223'),
+  ('334', '4', '20.00',   '224'),
+  ('334', '2', '100.00',  '226'),
+  ('334', '1', '5.00',    '225'),
+  ('347', '5', '12.00',   '229'),
+  ('334', '3', '5.00',    '229'),
+  ('348', '5', '40.00',   '226')
+--------------
+
+--------------
+SELECT * FROM Tickets
+--------------
+
+customer_id	showing_id	price	rating
+222	333	4	5
+222	334	10	3
+222	340	12	1
+222	346	5	4
+223	334	30	5
+223	340	5	1
+224	334	20	4
+225	334	5	1
+226	334	100	2
+226	348	40	5
+229	334	5	3
+229	347	12	5
+--------------
+UPDATE Customers SET first = 'Sue' WHERE id = '228'
+--------------
+
+--------------
+UPDATE Tickets t 
+  JOIN Showings s 
+  JOIN Movies m 
+  ON (t.showing_id = s.id AND s.movie_id = m.id) 
+  SET t.rating = 5 
+  WHERE m.title = 'Star Wars'
+--------------
+

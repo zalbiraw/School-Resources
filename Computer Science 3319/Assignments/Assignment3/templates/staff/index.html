@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html >
+<head>
+  <meta charset="UTF-8">
+  <title>Movie Database - Staff</title>
+
+  
+  <!--Import Google Icon Font-->
+  <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="../../static/styles/staff/tabs.css">
+  <link rel="stylesheet" href="../../../static/styles/customer/styles.css">
+
+  <!-- Custom CSS-->
+  <link rel="stylesheet" type="text/css" href="../../static/styles/staff/staff.css">
+  
+  <!-- Compiled and minified CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
+  
+</head>
+  <!-- Compiled and minified JavaScript --> 
+  <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
+
+<body>
+<h1 id="staffText" >Staff</h1>
+  <div class="row">
+    <div class="col s12">
+      <ul class="tabs">
+        <li style = "width: 16%;" class="tab col s3"><a class="active" href="#movies">Movies</a></li>
+        <li style = "width: 16%;" class="tab col s3"><a href="#genres">Genres</a></li>
+        <li style = "width: 16%;" class="tab col s3"><a href="#rooms">Rooms</a></li>
+        <li style = "width: 16%;" class="tab col s3"><a href="#showings">Showings</a></li>
+        <li style = "width: 16%;" class="tab col s3"><a href="#customers">Customers</a></li>
+        <li style = "width: 16%;" class="tab col s3"><a href="#attendees">Attendees</a></li>
+      </ul>
+    </div>
+    <div id="movies" class="col s12">
+      
+      <ul class="collapsible" data-collapsible="accordion">
+        <li>
+          <div class="collapsible-header"><i class="material-icons" style="color: #ff4081">add_circle</i>
+            <p style="color: #ff4081;">Add Movie</p>
+          </div>
+          <div class="collapsible-body">
+            <p>
+              <div class="row">
+                <form id="insertMovieForm" action="/addmovie/" method="post" class="col s12" enctype=multipart/form-data>
+                  <div class="row">
+                    <div class="input-field col s6 ">
+                      <input required name="movieID" id="movieID" type="number" class="validate">
+                      <label for="movieID">Movie ID</label>
+                    </div>
+
+                    <div class="input-field col s6">
+                      <input required name="movieName" id="movieName" type="text" class="validate">
+                      <label for="movieName">Movie Name</label>
+                    </div>
+
+                    <div class="input-field col s6">
+                      <input required name="movieYear" id="movieYear" type="number" class="validate">
+                      <label for="movieYear">Movie Year</label>
+                    </div>
+
+                    <div class="file-field input-field col s6">
+                      <div class="btn">
+                        <span>Movie Poster</span>
+                        <input name="moviePoster" type="file">
+                      </div>
+                      <div class="file-path-wrapper">
+                        <input class="file-path validate" type="text">
+                      </div>
+                    </div>
+
+                  </div>
+
+                  <button class="btn waves-effect waves-light pink accent-2" type="submit" name="action">
+                    Submit
+                    <i class="material-icons right">send</i>
+                  </button>
+                </form>
+              </div>
+            </p>
+          </div>
+        </li>
+        <li>
+          <div class="collapsible-header"><i class="material-icons" style="color: #ff4081">delete</i>
+            <p style="color: #ff4081;">Delete Movie</p>
+          </div>
+          <div class="collapsible-body">
+            <p>
+              <div class="row">
+                <form id="deleteMovieForm" action="/deletemovie/" method="post" class="col s12">
+                  <div class="row">
+                    <div class="input-field col s6">
+                      <input required name="movieID" id="movieID" type="number" class="validate">
+                      <label for="movieID">Movie ID</label>
+                    </div>
+
+                  <button style="margin-top: 1%; margin-left: 2%" class="btn waves-effect waves-light pink accent-2" type="submit" name="action">
+                    Delete
+                    <i class="material-icons right">delete</i>
+                  </button>
+                </form>
+              </div>
+            </p>
+          </div>
+        </li>
+        <li>
+          <div class="collapsible-header"><i class="material-icons" style="color: #ff4081">update</i><p style="color: #ff4081;">Modify Movie</p></div>
+          <div class="collapsible-body">
+            <p>
+              <div class="row">
+                  <form id="modifyMovieForm" action="/modifymovie/" method="post" class="col s12" enctype=multipart/form-data>
+                    <div class="row">
+                      <div class="input-field col s6">
+                        <input required name="movieID" id="movieID" type="number" class="validate">
+                        <label for="movieID">Movie ID</label>
+                      </div>
+
+                      <div class="input-field col s6">
+                        <input name="movieName" id="movieName" type="text" class="validate">
+                        <label for="movieName">Movie Name</label>
+                      </div>
+
+                      <div class="input-field col s6">
+                        <input name="movieYear" id="movieYear" type="number" class="validate">
+                        <label for="movieYear">Movie Year</label>
+                      </div>
+                    </div>
+
+                    <div class="file-field input-field  col s6">
+                      <div class="btn">
+                        <span>Movie Poster</span>
+                        <input name="moviePoster" type="file">
+                      </div>
+                      <div class="file-path-wrapper">
+                        <input class="file-path validate" type="text">
+                      </div>
+                    </div>
+                    <button class="btn waves-effect waves-light pink accent-2" type="submit" name="action">
+                    Update
+                    <i class="material-icons right">update</i>
+                  </button>
+                </form>
+              </div>
+            </p>
+          </div>
+        </li>
+        <li>
+          <div class="collapsible-header"><i class="material-icons" style="color: #ff4081">list</i><p href="/listmovies/" style="color: #ff4081;">List All Movies</p></div>
+          <div class="collapsible-body">
+            <p>
+              {% for movie in movies %}
+              <div class="col m12 l6">
+                <div class="card horizontal">
+                  {% if movie.3 != None %}
+                  <div class="card-image">
+                    <img src="../../../static/images/{{ movie.3 }}">
+                  </div>
+                  {% endif %}
+                  <div class="card-stacked">
+                    <div class="card-content">
+                      <div style="color: black;" class="movie-title">
+                        {{ movie.1 }}
+                      </div>
+                      <div style="color: black;" class="movie-date">
+                        <span>Release Date:</span> {{ movie.2 }}
+                      </div>
+                      <div style="color: black;" class="movie-time">
+                        <span>ID: </span> {{ movie.0 }}
+                      </div>
+                    </div>
+                  </div>
+                </div>  
+              </div>
+              {% endfor %}
+            </p>
+            {% for i in movies %}
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            {% endfor %}
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div id="genres" class="col s12">
+      <ul class="collapsible" data-collapsible="accordion">
+        <li>
+          <div class="collapsible-header"><i class="material-icons" style="color: #ff4081">add_circle</i>
+            <p style="color: #ff4081;">Add Genre</p>
+          </div>
+          <div class="collapsible-body">
+            <p>
+              <div class="row">
+                <form id="addGenreForm" action="/addgenre/" method="post" class="col s12">
+                  <div class="row">
+                    <div class="input-field col s6 ">
+                      <input required name="movieID" id="movieID" type="number" class="validate">
+                      <label for="movieID">Movie ID</label>
+                    </div>
+
+                    <div class="input-field col s6">
+                      <input required name="genre" id="genre" type="text" class="validate">
+                      <label for="genre">Genre</label>
+                    </div>
+                  <button class="btn waves-effect waves-light pink accent-2" type="submit" name="action">
+                    Add Genre
+                    <i class="material-icons right">send</i>
+                  </button>
+                </form>
+              </div>
+            </p>
+          </div>
+        </li>
+        <li>
+          <div class="collapsible-header"><i class="material-icons" style="color: #ff4081">delete</i>
+            <p style="color: #ff4081;">Delete Genre From Movie</p>
+          </div>
+          <div class="collapsible-body">
+            <p>
+              <div class="row">
+                <form id="deleteGenreForm" action="/deletegenre/" method="post" class="col s12">
+                  <div class="row">
+                    <div class="input-field col s6 ">
+                      <input required name="movieID" id="movieID" type="number" class="validate">
+                      <label for="movieID">Movie ID</label>
+                    </div>
+                    <button style="margin-top: 1%; margin-left: 2%" class="btn waves-effect waves-light pink accent-2" type="submit" name="action">
+                      Delete Genre
+                      <i class="material-icons right">delete</i>
+                    </button>
+                </form>
+              </div>
+            </p>
+          </div>
+        </li>
+        <li>
+          <div class="collapsible-header"><i class="material-icons" style="color: #ff4081">list</i><p style="color: #ff4081;">List All Genres</p></div>
+          <div class="collapsible-body">
+            <p>
+            <table id-"table" class="center-align">
+                <thead>
+                  <tr>
+                    <td>
+                      Genre
+                    </td>
+                    <td>
+                      Movie Name
+                    </td>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for genre in genres %}
+                  <tr>
+                    <td>
+                      {{ genre.0 }}
+                    </td>
+                    <td>
+                      {{ genre.1 }}
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </p>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div id="rooms" class="col s12">
+      <ul class="collapsible" data-collapsible="accordion">
+        <li>
+          <div class="collapsible-header"><i class="material-icons" style="color: #ff4081">add_circle</i>
+            <p style="color: #ff4081;">Add Room</p>
+          </div>
+          <div class="collapsible-body">
+            <p>
+              <div class="row">
+                <form id="addRoomForm" action="/addroom/" method="post" class="col s12">
+                  <div class="row">
+                    <div class="input-field col s6 ">
+                      <input required name="roomNumber" id="roomNumber" type="number" class="validate">
+                      <label for="roomNumber">Room Number</label>
+                    </div>
+
+                    <div class="input-field col s6 ">
+                      <input required name="roomCapacity" id="roomCapacity" type="number" class="validate">
+                      <label for="roomCapacity">Room Capacity</label>
+                    </div>
+                  </div>
+                  <button class="btn waves-effect waves-light pink accent-2" type="submit" name="action">
+                    Add Room
+                    <i class="material-icons right">send</i>
+                  </button>
+                </form>
+              </div>
+            </p>
+          </div>
+        </li>
+        <li>
+          <div class="collapsible-header"><i class="material-icons" style="color: #ff4081">delete</i>
+            <p style="color: #ff4081;">Remove Room</p>
+          </div>
+          <div class="collapsible-body">
+            <p>
+              <div class="row">
+                <form id="removeRoomForm" action="/deleteroom/" method="post" class="col s12">
+                  <div class="row">
+                    <div class="input-field col s6 ">
+                      <input required name="roomNumber" id="roomNumber" type="number" class="validate">
+                      <label for="roomNumber">Room Number</label>
+                    </div>
+                  <button data-position="right" data-delay="50" data-tooltip="Deleting A Room Will Also Delete The Showings In That Room!" style="margin-top: 1%; margin-left: 2%" class="btn tooltipped waves-effect waves-light pink accent-2" type="submit" name="action">
+                    Delete
+                    <i class="material-icons right">delete</i>
+                  </button>
+                </form>
+              </div>
+            </p>
+          </div>
+        </li>
+        <li>
+          <div class="collapsible-header"><i class="material-icons" style="color: #ff4081">update</i><p style="color: #ff4081;">Modify Room</p></div>
+          <div class="collapsible-body">
+            <p>
+              <div class="row">
+                  <form id="modifyRoomForm" action="/modifyroom/" method="post"  class="col s12">
+                    <div class="row">
+                      <div class="input-field col s6 ">
+                        <input required name="roomNumber" id="roomNumber" type="number" class="validate">
+                        <label for="roomNumber">Room Number</label>
+                      </div>
+
+                      <div class="input-field col s6 ">
+                        <input required name="roomCapacity" id="roomCapacityModifyRoom" type="number" class="validate">
+                        <label for="roomCapacityModifyRoom">Room Capacity</label>
+                      </div>
+                    </div>
+                    <button class="btn waves-effect waves-light pink accent-2" type="submit" name="action">
+                    Update
+                    <i class="material-icons right">update</i>
+                  </button>
+                </form>
+              </div>
+            </p>
+          </div>
+        </li>
+        <li>
+          <div class="collapsible-header"><i class="material-icons" style="color: #ff4081">list</i><p style="color: #ff4081;">List All Rooms</p></div>
+          <div class="collapsible-body">
+            <p>
+              <table id-"table" class="center-align">
+                <thead>
+                  <tr>
+                    <td>
+                      Room Number
+                    </td>
+                    <td>
+                      Room Capacity
+                    </td>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for room in rooms %}
+                  <tr>
+                    <td>
+                      {{ room.0 }}
+                    </td>
+                    <td>
+                      {{ room.1 }}
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </p>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div id="showings" class="col s12">
+      <ul class="collapsible" data-collapsible="accordion">
+        <li>
+          <div class="collapsible-header"><i class="material-icons" style="color: #ff4081">add_circle</i>
+            <p style="color: #ff4081;">Add Showing</p>
+          </div>
+          <div class="collapsible-body">
+            <p>
+              <div class="row">
+                <form id="insertShowingForm" action="/addshowing/" method="post" class="col s12">
+                  <div class="row">
+                    <div class="input-field col s6 ">
+                      <input name="showingID" id="showingIDInsertShowing" type="number" required class="validate">
+                      <label for="showingIDInsertShowing">Showing ID</label>
+                    </div>
+
+                    <div class="input-field col s6 ">
+                      <input name="showingDateTime" id="showingDateTimeInsertShowing" required type="datetime" class="validate">
+                      <label for="showingDateTimeInsertShowing">DateTime</label>
+                    </div>
+
+                    <div class="input-field col s6 ">
+                      <input name="movieID" id="movieIDInsertShowing" type="number" required class="validate">
+                      <label for="movieIDInsertShowing">Movie ID</label>
+                    </div>
+
+                    <div class="input-field col s6 ">
+                      <input name="roomNumber" id="roomNumberInsertShowing" type="number" required class="validate">
+                      <label for="roomNumberInsertShowing">Room Number</label>
+                    </div>
+
+                    <div class="input-field col s6 ">
+                      <input name="showingPrice" id="showingPriceInsertShowing" type="number" required class="validate">
+                      <label for="showingPriceInsertShowing">Ticket Price</label>
+                    </div>
+                  </div>
+
+                  <button class="btn waves-effect waves-light pink accent-2" type="submit" name="action">
+                    Submit
+                    <i class="material-icons right">send</i>
+                  </button>
+                </form>
+              </div>
+            </p>
+          </div>
+        </li>
+        <li>
+          <div class="collapsible-header"><i class="material-icons" style="color: #ff4081">delete</i>
+            <p style="color: #ff4081;">Delete Showing</p>
+          </div>
+          <div class="collapsible-body">
+            <p>
+              <div class="row">
+                <form id="deleteShowingForm" action="/deleteshowing/" method="post" class="col s12">
+                  <div class="row">
+                    <div class="input-field col s6 ">
+                      <input required required name="showingID" id="showingIDDeleteShowing" type="number" class="validate">
+                      <label for="showingIDInsertShowing">Showing ID</label>
+                    </div>
+
+                    <div class="input-field col s6 ">
+                      <input required required name="movieID" id="movieIDDeleteShowing" type="number" class="validate">
+                      <label for="movieIDInsertShowing">Movie ID</label>
+                    </div>
+
+                    <div class="input-field col s6 ">
+                      <input required name="roomNumber" id="roomNumberDeleteShowing" type="number" class="validate">
+                      <label for="roomNumberInsertShowing">Room Number</label>
+                    </div>
+
+                  <button style="margin-top: 1%; margin-left: 2%" class="btn waves-effect waves-light pink accent-2" type="submit" name="action">
+                    Delete
+                    <i class="material-icons right">delete</i>
+                  </button>
+                </form>
+              </div>
+            </p>
+          </div>
+        </li>
+        <li>
+          <div class="collapsible-header"><i class="material-icons" style="color: #ff4081">update</i><p style="color: #ff4081;">Modify Showing</p></div>
+          <div class="collapsible-body">
+            <p>
+              <div class="row">
+                <form id="ModifyShowingForm" action="/modifyshowing/" method="post" class="col s12">
+                  <div class="row">
+                    <div class="input-field col s6 ">
+                      <input required name="showingID" id="showingIDModifyShowing" type="number" class="validate">
+                      <label for="showingIDModifyShowing">Showing ID</label>
+                    </div>
+
+                    <div class="input-field col s6">
+                      <input required name="showingDateTime" id="showingDateTimeModifyShowing" type="datetime" class="validate">
+                      <label for="showingDateTimeModifyShowing">DateTime</label>
+                    </div>
+
+                    <div class="input-field col s6 ">
+                      <input required name="movieID" id="movieIDModifyShowing" type="number" class="validate">
+                      <label for="movieIDModifyShowing">Movie ID</label>
+                    </div>
+
+                    <div class="input-field col s6 ">
+                      <input required name="roomNumber" id="roomNumberModifyShowing" type="number" class="validate">
+                      <label for="roomNumberModifyShowing">Room Number</label>
+                    </div>
+
+                    <div class="input-field col s6 ">
+                      <input required name="showingPrice" id="showingPriceModifyShowing" type="number" class="validate">
+                      <label for="showingPriceModifyShowing">Ticket Price</label>
+                    </div>
+                  </div>
+
+                  <button class="btn waves-effect waves-light pink accent-2" type="submit" name="action">
+                    Submit
+                    <i class="material-icons right">send</i>
+                  </button>
+                </form>
+              </div>
+            </p>
+          </div>
+        </li>
+        <li>
+          <div class="collapsible-header"><i class="material-icons" style="color: #ff4081">list</i><p style="color: #ff4081;">List All Showings</p></div>
+          <div class="collapsible-body">
+            <p>
+              <table id-"table" class="center-align">
+                <thead>
+                  <tr>
+                    <td>
+                      Showing ID
+                    </td>
+                    <td>
+                      Showing Date and Time
+                    </td>
+                    <td>
+                      Movie ID
+                    </td>
+                    <td>
+                      Room Number
+                    </td>
+                    <td>
+                      Ticket Price
+                    </td>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for showing in showings %}
+                  <tr>
+                    <td>
+                      {{ showing.0 }}
+                    </td>
+                    <td>
+                      {{ showing.1 }}
+                    </td>
+                    <td>
+                      {{ showing.2 }}
+                    </td>
+                    <td>
+                      {{ showing.3 }}
+                    </td>
+                    <td>
+                      {{ showing.4 }}
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </p>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div id="customers" class="col s12">
+      <ul class="collapsible" data-collapsible="accordion">
+        <li>
+          <div class="collapsible-header"><i class="material-icons" style="color: #ff4081">add_circle</i>
+            <p style="color: #ff4081;">Add Customer</p>
+          </div>
+          <div class="collapsible-body">
+            <p>
+              <div class="row">
+                <form id="addCustomerForm" action="/addcustomer/" method="post" class="col s12">
+                  <div class="row">
+                    <div class="input-field col s6 ">
+                      <input required name="customerID" id="customerIDAddCustomer" type="number" class="validate">
+                      <label for="customerIDAddCustomer">Customer ID</label>
+                    </div>
+
+                    <div class="input-field col s6">
+                      <input required name="firstName" id="firstNameAddCustomer" type="text" class="validate">
+                      <label for="firstNameAddCustomer">First Name</label>
+                    </div>
+
+                    <div class="input-field col s6">
+                      <input required name="lastName" id="lastNameAddCustomer" type="text" class="validate">
+                      <label for="lastNameAddCustomer">Last Name</label>
+                    </div>
+
+                    <div class="input-field col s6">
+                      <input required name="email" id="emailAddCustomer" type="text" class="validate">
+                      <label for="emailAddCustomer">E-mail Address</label>
+                    </div>
+
+                    <div class="input-field col s6">
+                      <input required name="sex" id="sexAddCustomer" type="text" class="validate">
+                      <label for="sexAddCustomer">Sex</label>
+                    </div>
+                  </div>
+
+                  <button class="btn waves-effect waves-light pink accent-2" type="submit" name="action">
+                    Add Customer
+                    <i class="material-icons right">send</i>
+                  </button>
+                </form>
+              </div>
+            </p>
+          </div>
+        </li>
+        <li>
+          <div class="collapsible-header"><i class="material-icons" style="color: #ff4081">delete</i>
+            <p style="color: #ff4081;">Delete Customer</p>
+          </div>
+          <div class="collapsible-body">
+            <p>
+              <div class="row">
+                <form id="deleteCustomerForm" action="/deletecustomer/" method="post" class="col s12">
+                  <div class="row">
+                    <div class="input-field col s6 ">
+                      <input required name="customerId" id="customerIDDeleteCustomer" type="number" class="validate">
+                      <label for="customerIDDeleteCustomer">Customer ID</label>
+                    </div>
+
+                  <button style="margin-top: 1%; margin-left: 2%" class="btn waves-effect waves-light pink accent-2" type="submit" name="action">
+                    Delete
+                    <i class="material-icons right">delete</i>
+                  </button>
+                </form>
+              </div>
+            </p>
+          </div>
+        </li>
+        <li>
+          <div class="collapsible-header"><i class="material-icons" style="color: #ff4081">update</i><p style="color: #ff4081;">Modify Customer</p></div>
+          <div class="collapsible-body">
+            <p>
+              <div class="row">
+                <form id="modifyCustomerForm" action="/modifycustomer/" method="post" class="col s12">
+                  <div class="row">
+                    <div class="input-field col s6 ">
+                      <input required name="customerID" id="customerIDModifyCustomer" type="number" class="validate">
+                      <label for="customerIDDeleteCustomer">Customer ID</label>
+                    </div>
+
+                    <div class="input-field col s6">
+                      <input name="firstName" id="firstNameModifyCustomer" type="text" class="validate">
+                      <label for="firstNameDeleteCustomer">First Name</label>
+                    </div>
+
+                    <div class="input-field col s6">
+                      <input name="lastName" id="lastNameModifyCustomer" type="text" class="validate">
+                      <label for="lastNameDeleteCustomer">Last Name</label>
+                    </div>
+
+                    <div class="input-field col s6">
+                      <input name="email" id="emailModifyCustomer" type="text" class="validate">
+                      <label for="emailDeleteCustomer">E-mail Address</label>
+                    </div>
+
+                    <div class="input-field col s6">
+                      <input name="sex" id="sexModifyCustomer" type="text" class="validate">
+                      <label for="sexDeleteCustomer">Sex</label>
+                    </div>
+                  </div>
+
+                  <button class="btn waves-effect waves-light pink accent-2" type="submit" name="action">
+                    Modify Customer
+                    <i class="material-icons right">send</i>
+                  </button>
+                </form>
+              </div>
+            </p>
+          </div>
+        </li>
+        <li>
+          <div class="collapsible-header"><i class="material-icons" style="color: #ff4081">list</i><p style="color: #ff4081;">List All Customers</p></div>
+          <div class="collapsible-body">
+            <p>
+              <table id-"table" class="center-align">
+                <thead>
+                  <tr>
+                    <td>
+                      Customer ID
+                    </td>
+                    <td>
+                      First Name
+                    </td>
+                    <td>
+                      Last Name
+                    </td>
+                    <td>
+                      Email Address
+                    </td>
+                    <td>
+                      Sex
+                    </td>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for customer in customers %}
+                  <tr>
+                    <td>
+                      {{ customer.0 }}
+                    </td>
+                    <td>
+                      {{ customer.1 }}
+                    </td>
+                    <td>
+                      {{ customer.2 }}
+                    </td>
+                    <td>
+                      {{ customer.3 }}
+                    </td>
+                    <td>
+                      {{ customer.4 }}
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </p>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div id="attendees" class="col s12">
+      
+      <ul class="collapsible" data-collapsible="accordion">
+        <li>
+          <div class="collapsible-header"><i class="material-icons" style="color: #ff4081">list</i>
+            <p style="color: #ff4081;">List By Customer First and Last Name</p>
+          </div>
+          <div class="collapsible-body">
+            <p>
+              <table id-"table" class="center-align">
+                <thead>
+                  <tr>
+                    <td>
+                      Customer ID
+                    </td>
+                    <td>
+                      Showing ID
+                    </td>
+                    <td>
+                      Rating
+                    </td>
+                    <td>
+                      First Name
+                    </td>
+                    <td>
+                      Last Name
+                    </td>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for element in attendWithNames %}
+                  <tr>
+                    <td>
+                      {{ element.0 }}
+                    </td>
+                    <td>
+                      {{ element.1 }}
+                    </td>
+                    <td>
+                      {{ element.2 }}
+                    </td>
+                    <td>
+                      {{ element.3 }}
+                    </td>
+                    <td>
+                      {{ element.4 }}
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </p>
+          </div>
+        </li>
+        <li>
+          <div class="collapsible-header"><i class="material-icons" style="color: #ff4081">list</i>
+            <p style="color: #ff4081;">List By Showing Date and Time</p>
+          </div>
+          <div class="collapsible-body">
+            <p>
+              <table id-"table" class="center-align">
+                <thead>
+                  <tr>
+                    <td>
+                      Customer ID
+                    </td>
+                    <td>
+                      Showing ID
+                    </td>
+                    <td>
+                      Rating
+                    </td>
+                    <td>
+                      Showing DateTime
+                    </td>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for elementWithShowings in attendWithShowings %}
+                  <tr>
+                    <td>
+                      {{ elementWithShowings.0 }}
+                    </td>
+                    <td>
+                      {{ elementWithShowings.1 }}
+                    </td>
+                    <td>
+                      {{ elementWithShowings.2 }}
+                    </td>
+                    <td>
+                      {{ elementWithShowings.4 }}
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </p>
+          </div>
+        </li>
+        <li>
+          <div class="collapsible-header"><i class="material-icons" style="color: #ff4081">list</i><p style="color: #ff4081;">List By Movie Title</p></div>
+          <div class="collapsible-body">
+            <p>
+              <table id-"table" class="center-align">
+                <thead>
+                  <tr>
+                    <td>
+                      Customer ID
+                    </td>
+                    <td>
+                      Showing ID
+                    </td>
+                    <td>
+                      Rating
+                    </td>
+                    <td>
+                      Movie Name
+                    </td>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for elementWithShowings in attendWithMovieTitle %}
+                  <tr>
+                    <td>
+                      {{ elementWithShowings.0 }}
+                    </td>
+                    <td>
+                      {{ elementWithShowings.1 }}
+                    </td>
+                    <td>
+                      {{ elementWithShowings.2 }}
+                    </td>
+                    <td>
+                      {{ elementWithShowings.3}}
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </p>
+          </div>
+        </li>
+        <li>
+          <div class="collapsible-header"><i class="material-icons" style="color: #ff4081">list</i><p style="color: #ff4081;">Sort By Rating</p></div>
+          <div class="collapsible-body">
+            <p>
+              <table id-"table" class="center-align">
+                <thead>
+                  <tr>
+                    <td>
+                      Customer ID
+                    </td>
+                    <td>
+                      Showing ID
+                    </td>
+                    <td>
+                      Rating
+                    </td>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for element in attendWithSortedRatings %}
+                  <tr>
+                    <td>
+                      {{ element.0 }}
+                    </td>
+                    <td>
+                      {{ element.1 }}
+                    </td>
+                    <td>
+                      {{ element.2 }}
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </p>
+          </div>
+        </li>
+      </ul>

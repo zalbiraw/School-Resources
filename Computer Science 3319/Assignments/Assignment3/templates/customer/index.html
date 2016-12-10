@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Movies - Customer</title>
+	<link rel="stylesheet" href="../static/styles/reset.css">
+	<link rel="stylesheet" href="../static/styles/customer/styles.css">
+
+	<!--Import Google Icon Font-->
+	<link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<!-- Compiled and minified CSS -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
+
+	<style>
+		html {
+			height: 100%
+		}
+
+		body {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			height: 100%;
+		}
+	</style>
+
+	<!--Let browser know website is optimized for mobile-->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+</head>
+<body>
+	<div class="container">
+		<form id="login" class="col s12" action="./login" method="get">
+			<div class="row">
+				<div class="input-field col s8">
+					<select name="id">
+						<option value="" disabled selected>Choose your option</option>
+						{% for customer in customers %}
+							<option value="{{ customer.0 }}">{{ customer.2 }}, {{ customer.1 }}</option>
+						{% endfor %}
+					</select>
+					<label>Select Customer</label>
+				</div>
+				<div class="input-field col s4">
+					<input id="submit" type="submit" class="btn-large waves-effect waves-light" name="submit" value="Submit" />
+				</div>
+			</div>
+		</form>
+	</div>
+	<!--Import jQuery before materialize.js-->
+	<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
+
+	<script type="text/javascript">
+	$(document).ready(function() {
+		$('select').material_select();
+	});
+	</script>
+</body>
+</html>

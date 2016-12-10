@@ -1,0 +1,68 @@
+ERROR 1064 (42000) at line 26: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'DELETE FROM Theatres WHERE id = 3' at line 4
+--------------
+CREATE VIEW v AS
+SELECT 
+c.first AS 'First Name', 
+c.last AS 'Last Name', 
+m.title AS 'Title',
+SUM(t.rating)/COUNT(t.rating) AS 'Rating'
+FROM Tickets t
+JOIN Customers c
+JOIN Showings s
+JOIN Movies m
+ON (t.customer_id = c.id AND t.showing_id = s.id AND s.movie_id = m.id)
+GROUP BY c.first, c.last, m.title
+--------------
+
+--------------
+SELECT * FROM v
+--------------
+
+First Name	Last Name	Title	Rating
+Barack	Obama	Star Wars	5.0000
+Barack	Obama	Two Weeks Notice	5.0000
+Bill	Clinton	Star Wars	5.0000
+Donald	Trump	Interstellar	5.0000
+Donald	Trump	Star Wars	5.0000
+Hillary	Clinton	Star Wars	5.0000
+Will	Beldman	Aloha	1.0000
+Will	Beldman	Star Wars	5.0000
+Will	Beldman	Tommy Boy	4.0000
+Zaid	Albirawi	Aloha	1.0000
+Zaid	Albirawi	Star Wars	5.0000
+--------------
+SELECT * FROM Customers
+--------------
+
+id	first	last	sex	email
+222	Will	Beldman	M	wbeldma@uwo.ca
+223	Zaid	Albirawi	M	zalbiraw@uwo.ca
+224	Bill	Clinton	M	billy@prez.com
+225	Hillary	Clinton	F	nextprezmaybe@prez.com
+226	Donald	Trump	M	nextprezalso@prez.com
+227	Gary	Johnson	M	nextpreztoo@prez.com
+228	Sue	Stein	F	nextprezaswell@prez.com
+229	Barack	Obama	M	lastprez@prez.com
+--------------
+DELETE FROM Customers WHERE last = 'Trump'
+--------------
+
+--------------
+SELECT * FROM Customers
+--------------
+
+id	first	last	sex	email
+222	Will	Beldman	M	wbeldma@uwo.ca
+223	Zaid	Albirawi	M	zalbiraw@uwo.ca
+224	Bill	Clinton	M	billy@prez.com
+225	Hillary	Clinton	F	nextprezmaybe@prez.com
+227	Gary	Johnson	M	nextpreztoo@prez.com
+228	Sue	Stein	F	nextprezaswell@prez.com
+229	Barack	Obama	M	lastprez@prez.com
+--------------
+UPDATE Showings
+SET theatre_id = 1
+WHERE theatre_id = 3
+DELETE FROM Theatres WHERE id = 3
+--------------
+

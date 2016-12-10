@@ -1,0 +1,12 @@
+# Select the zalbirawdb database
+USE zalbirawdb;
+
+/* Associate trigger is in zalbirawscript1.txt */
+
+#Bunos
+INSERT INTO Theatres (id, capacity) VALUES (10, 1);
+SELECT * FROM Theatres;
+DELETE FROM Theatres WHERE id = 10;
+
+INSERT INTO Theatres (id, capacity) VALUES (20, -1);
+SELECT * FROM Theatres;

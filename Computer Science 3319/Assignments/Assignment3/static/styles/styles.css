@@ -1,0 +1,26 @@
+html { 
+		background: url(../images/background.png) no-repeat center center fixed; 
+		-webkit-background-size: cover;
+		-moz-background-size: cover;
+		-o-background-size: cover;
+		background-size: cover;
+
+		height: 100%
+	}
+
+#mainText{
+	margin-top: 15%;
+}
+
+body {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100%
+}
+
+
+#staff, #customer {
+	width: 200px;
+	margin: 0 5px;
+}

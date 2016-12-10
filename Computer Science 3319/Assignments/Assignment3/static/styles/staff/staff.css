@@ -1,0 +1,28 @@
+#staffText{
+	padding-left: 1%;
+}
+
+i.icon-red{
+	color: red;
+}
+
+#dropdownButton{
+	margin-top: 2%;
+	text-align: center;
+	width: 30%;
+}
+
+.blackText{
+	color: black !important;
+}
+
+#table{
+	width: 100%;
+
+}
+td{
+	text-align: center;
+}
+.col{
+	width:50%;
+}

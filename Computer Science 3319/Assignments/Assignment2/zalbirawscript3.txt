@@ -1,0 +1,123 @@
+# Select the zalbirawdb database
+USE zalbirawdb;
+
+# Show the last name of all customers with duplicates.
+SELECT
+last AS 'Last Name' 
+FROM Customers;
+
+# Show the last name of all customers without duplicates.
+SELECT 
+last AS 'Last Name' 
+FROM Customers 
+GROUP BY last;
+
+# Show the first name, last name and email address of your male customers.
+SELECT 
+first AS 'First Name', 
+last AS 'Last Name', 
+email AS 'Email Address'
+FROM Customers 
+WHERE sex = 'M';
+
+# Show the movie title of all films that are comedies. 
+SELECT 
+m.title AS 'Title'
+FROM Movies m
+JOIN Genres g 
+ON (m.id = g.movie_id)
+WHERE g.genre = 'Comedy';
+
+# Show the movie title and movie year of all nineties movies order in ascending order by year.
+SELECT 
+title AS 'Title'
+FROM Movies
+WHERE year >= 1990 AND year < 2000
+ORDER BY year;
+
+# Show the showing date and time and the capacity of the theatre room for any time the movie Star Wars was shown
+SELECT 
+DATE_FORMAT(s.date, '%M-%d-%Y') AS 'Showing Date', 
+TIME_FORMAT(s.time, '%r') AS 'Showing Time', 
+r.capacity 
+FROM Showings s
+JOIN Movies m
+JOIN Theatres r
+ON (s.movie_id = m.id AND s.theatre_id = r.id)
+WHERE m.title = 'Star Wars';
+
+# List all movie titles that have the word "the" in their title.
+SELECT
+title AS 'Title'
+FROM Movies 
+WHERE title LIKE '%the %';
+
+# List all the first name and last name of people who went to see a movie on or after March 1, 2016 and the name of the movie that they went to see.
+SELECT 
+c.first AS 'First Name',
+c.last AS 'Last Name',
+m.title AS 'Movie Title'
+FROM Tickets t
+JOIN Customers c
+JOIN Showings s
+JOIN Movies m
+ON (t.customer_id = c.id AND t.showing_id = s.id AND s.movie_id = m.id)
+WHERE s.date >= '2016-03-01';
+
+# List the first name and last name of people who went to see a sci fi movie. Don't show duplicates.
+SELECT 
+first AS 'First Name',
+last AS 'Last Name'
+FROM Tickets t
+JOIN Customers c
+JOIN Showings s
+JOIN Genres g
+ON (t.customer_id = c.id AND t.showing_id = s.id AND s.movie_id = g.movie_id)
+WHERE g.genre = 'SciFi'
+GROUP BY first, last;
+
+# List the movie titles of any movies that have no showings.
+SELECT 
+title AS 'Title'
+FROM Movies
+WHERE id NOT IN (SELECT movie_id FROM Showings);
+
+# List the movie titles of movies that have showing but no one has watched them
+SELECT 
+m.title AS 'Title'
+FROM Showings s
+JOIN Movies m
+ON (s.movie_id = m.id)
+WHERE s.id NOT IN (SELECT showing_id FROM Tickets)
+GROUP BY m.title;
+
+# List the movie titles of movies that have NOT been seen by a customer
+SELECT 
+m.title AS 'Title'
+FROM Movies m
+LEFT JOIN Showings s
+ON (s.movie_id = m.id)
+WHERE m.id NOT IN (SELECT movie_id FROM Showings) OR s.id NOT IN (SELECT showing_id FROM Tickets)
+GROUP BY title;
+
+# List each year a movie came out and count the number of movies that came out that year.
+SELECT 
+year AS 'Year', 
+COUNT(year) AS 'Count'
+FROM Movies
+GROUP BY year;
+
+# Display the total sales value of all showings.
+SELECT SUM(price) AS 'Total'
+FROM Tickets;
+
+# Find the total number of customers who attended each showing AND display the capacity of each room to see if any showing was overbooked. 
+SELECT 
+s.id AS 'Showing', 
+COUNT(*) AS 'Sold',
+r.capacity AS 'Capacity'
+FROM Showings s
+JOIN Tickets t
+JOIN Theatres r
+ON (t.showing_id = s.id AND s.theatre_id = r.id)
+GROUP BY s.id;

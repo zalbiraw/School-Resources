@@ -1,0 +1,123 @@
+# Select the zalbirawdb database
+USE zalbirawdb;
+
+# Load data from file.
+LOAD DATA INFILE 'movies.txt' INTO TABLE Movies
+  FIELDS TERMINATED BY ','
+  (id, title, year);
+
+# Add movie to the Movies table.
+INSERT INTO Movies (id, title, year) VALUES ('112', 'Interstellar', 2014);
+
+# Show the content of the Movies table.
+SELECT * FROM Movies;
+
+# Insert Customers.
+INSERT INTO Customers 
+  (id, first, last, sex, email)
+VALUES 
+  ('222', 'Will',     'Beldman',  'M', 'wbeldma@uwo.ca'),
+  ('223', 'Zaid',     'Albirawi', 'M', 'zalbiraw@uwo.ca'),
+  ('224', 'Bill',     'Clinton',  'M', 'billy@prez.com'),
+  ('225', 'Hillary',  'Clinton',  'F', 'nextprezmaybe@prez.com'),
+  ('226', 'Donald',   'Trump',    'M', 'nextprezalso@prez.com'),
+  ('227', 'Gary',     'Johnson',  'M', 'nextpreztoo@prez.com'),
+  ('228', 'Jill',     'Stein',    'F', 'nextprezaswell@prez.com'),
+  ('229', 'Barack',   'Obama',    'M', 'lastprez@prez.com');
+
+# Show the content of the Customers table.
+SELECT * FROM Customers;
+
+# Insert Genres
+INSERT INTO Genres
+  (movie_id, genre)
+VALUES
+  ('100', 'Action'),
+  ('100', 'SciFi'),
+  ('101', 'Animated'),
+  ('102', 'Action'),
+  ('103', 'Romance'),
+  ('104', 'Action'),
+  ('104', 'SciFi'),
+  ('105', 'Action'),
+  ('105', 'SciFi'),
+  ('106', 'Drama'),
+  ('107', 'Comedy'),
+  ('108', 'Action'),
+  ('109', 'Comedy'),
+  ('110', 'Comedy'),
+  ('110', 'Romance'),
+  ('111', 'SciFi'),
+  ('111', 'Action'),
+  ('111', 'Comedy'),
+  ('112', 'SciFi');
+
+# Show the content of the Genres table.
+SELECT * FROM Genres;
+
+# Add Theatre information.
+INSERT INTO Theatres
+  (id, capacity)
+VALUES
+  (1, 30),
+  (2, 5),
+  (3, 100),
+  (4, 30),
+  (5, 6);
+
+# Show the content of the Theatres table.
+SELECT * FROM Theatres;
+
+# Add showings.
+INSERT INTO Showings
+  (movie_id, id, date, time, theatre_id)
+VALUES
+  ('100', '333', '2016-02-11', '21:30', '1'),
+  ('100', '334', '2016-02-11', '19:30', '2'),
+  ('101', '335', '2016-02-11', '19:00', '3'),
+  ('102', '337', '2016-03-12', '19:00', '1'),
+  ('103', '338', '2016-03-12', '21:00', '1'),
+  ('103', '339', '2016-03-13', '19:00', '2'),
+  ('103', '340', '2016-03-20', '19:00', '1'),
+  ('104', '341', '2016-03-20', '21:00', '1'),
+  ('107', '346', '2016-03-22', '20:30', '2'),
+  ('108', '345', '2016-03-22', '21:00', '3'),
+  ('109', '342', '2016-03-20', '19:00', '2'),
+  ('110', '344', '2016-03-21', '19:00', '1'),
+  ('110', '347', '2016-03-23', '22:00', '1'),
+  ('111', '336', '2016-02-11', '21:00', '2'),
+  ('112', '348', '2016-01-11', '8:30', '3');
+
+# Show the content of the Showings table.
+SELECT * FROM Showings;
+
+# Add Tickets' information and ratings.
+INSERT INTO Tickets
+  (showing_id, rating, price, customer_id)
+VALUES
+  ('333', '5', '4.00',    '222'),
+  ('340', '1', '12.00',   '222'),
+  ('334', '3', '10.00',   '222'),
+  ('346', '4', '5.00',    '222'),
+  ('334', '5', '30.00',   '223'),
+  ('340', '1', '5.00',    '223'),
+  ('334', '4', '20.00',   '224'),
+  ('334', '2', '100.00',  '226'),
+  ('334', '1', '5.00',    '225'),
+  ('347', '5', '12.00',   '229'),
+  ('334', '3', '5.00',    '229'),
+  ('348', '5', '40.00',   '226');
+
+# Show the content of the Tickets table.
+SELECT * FROM Tickets;
+
+# Updates Jill's name to become Sue
+UPDATE Customers SET first = 'Sue' WHERE id = '228';
+
+# Changes all Star Wars ratings to 5
+UPDATE Tickets t 
+  JOIN Showings s 
+  JOIN Movies m 
+  ON (t.showing_id = s.id AND s.movie_id = m.id) 
+  SET t.rating = 5 
+  WHERE m.title = 'Star Wars';

@@ -1,0 +1,120 @@
+nav .nav-wrapper {
+	display: flex;
+	flex-wrap: nowrap;
+	justify-content: space-between;
+}
+
+nav .nav-wrapper form {
+	flex-grow: 1;
+}
+
+#search {
+	display: inline-flex;
+	height: 64px;
+}
+
+nav ul li {
+	min-width: 80px;
+	text-align: center;
+}
+
+.navbar-fixed + .container {
+    margin-top: 40px;
+}
+
+#seating:checked + label {
+	color: black!important;
+}
+
+.buy-ticket:checked + .card-action {
+	background-color: #ee6e73;
+}
+
+.card-action label {
+	color: #ee6e73;
+	font-size: 16px;
+
+	display: block;
+	height: 100%;
+	width: 100%;
+
+	cursor: pointer;
+}
+
+.movie-title {
+	font-size: 16px;
+	padding-bottom: 20px;
+}
+
+.movie-title .year {
+	font-weight: 400;
+}
+
+.movie-date, .movie-time, .ticket-price {
+	padding-bottom: 10px;
+}
+
+.movie-date, .movie-time, .ticket-price, .ticket-sold {
+	font-size: 14px;
+}
+
+.movie-title, .movie-date span, .movie-time span, .ticket-price span, .ticket-sold span {
+	font-weight: 600;
+}
+
+.card-action label {
+	cursor: default!important;
+    text-align: center;
+}
+
+.buy-ticket.disable + .card-action {
+	background-color: grey;
+}
+
+.buy-ticket.disable + .card-action label{
+	color: white;
+}
+
+.card-stacked form i {
+	width: 100%;
+	border-radius: 0;
+}
+
+.card-stacked form #showing_id, .card-stacked form #cust_id {
+	display: none;
+}
+
+.customer-info div {
+	font-size: 16px;
+	padding: 5px;
+}
+
+.customer-info div span {
+	font-weight: 600;
+}
+
+.my-showings {
+    width: 100%;
+    padding: 20px 0;
+    margin-bottom: 20px;
+    font-size: 20px;
+    font-weight: 600;
+    color: #ee6e73;
+    border-bottom: 4px solid #ee6e73;
+}
+
+.rate_range {
+	padding: 0 10px;
+}
+
+.rate_range span {
+	font-weight: 600;
+}
+
+.rating {
+	text-align: center;
+}
+
+.star {
+	width: 20px;
+}
