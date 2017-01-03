@@ -1,0 +1,43 @@
+T
+	Color: 100 100 100
+	Ambient: 0.4
+	Diffuse: 0.4
+	Specular: 0.8
+	Fallout: 16
+	Reflectivity: 0.8
+	Points: (0.0 0.0 0.0), (0.0 0.0 1000.0), (640.0 0.0 1000.0)
+T
+	Color: 100 100 100
+	Ambient: 0.4
+	Diffuse: 0.4
+	Specular: 0.8
+	Fallout: 16
+	Reflectivity: 0.8
+	Points: (640.0 0.0 1000.0), (640.0 0.0 0.0), (0.0 0.0 0.0)
+S
+	Color: 255 0 0
+	Ambient: 0.2
+	Diffuse: 0.4
+	Specular: 0.8
+	Fallout: 16
+	Reflectivity: 1.0
+	Center: 100.0 260.0 200.0
+	Radius: 60.0
+S
+	Color: 0 255 0
+	Ambient: 0.3
+	Diffuse: 0.6
+	Specular: 0.9
+	Fallout: 64
+	Reflectivity: 1.0
+	Center: 300.0 100.0 220.0
+	Radius: 100.0
+S
+	Color: 0 0 255
+	Ambient: 0.3
+	Diffuse: 0.4
+	Specular: 0.7
+	Fallout: 128
+	Reflectivity: 1.0
+	Center: 500.0 500.0 220.0
+	Radius: 60.0

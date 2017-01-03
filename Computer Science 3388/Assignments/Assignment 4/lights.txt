@@ -1,0 +1,2 @@
+Position: 20.0 620.0 100.0, Color: 255 255 255, Intensity: 0.8
+Position: 620.0 620.0 100.0, Color: 255 0 0, Intensity: 0.8
