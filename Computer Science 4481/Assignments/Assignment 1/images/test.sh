@@ -1,0 +1,59 @@
+rect=../src/rectangles
+
+$rect 1 120 4 pbm_120_4_ascii 0
+$rect 1 120 4 pbm_120_4_raw 1
+$rect 1 4 120 pbm_4_120_ascii 0
+$rect 1 4 120 pbm_4_120_raw 1
+$rect 1 4 4 pbm_4_4_ascii 0
+$rect 1 4 4 pbm_4_4_raw 1
+$rect 1 8 8 pbm_8_8_ascii 0
+$rect 1 8 8 pbm_8_8_raw 1
+$rect 1 8 16 pbm_8_16_ascii 0
+$rect 1 8 16 pbm_8_16_raw 1
+$rect 1 16 8 pbm_16_8_ascii 0
+$rect 1 16 8 pbm_16_8_raw 1
+$rect 1 100 100 pbm_100_100_ascii 0
+$rect 1 100 100 pbm_100_100_raw 1
+$rect 1 300 100 pbm_300_100_ascii 0
+$rect 1 300 100 pbm_300_100_raw 1
+$rect 1 100 300 pbm_100_300_ascii 0
+$rect 1 100 300 pbm_100_300_raw 1
+
+$rect 2 120 4 pgm_120_4_ascii 0
+$rect 2 120 4 pgm_120_4_raw 1
+$rect 2 4 120 pgm_4_120_ascii 0
+$rect 2 4 120 pgm_4_120_raw 1
+$rect 2 4 4 pgm_4_4_ascii 0
+$rect 2 4 4 pgm_4_4_raw 1
+$rect 2 8 8 pgm_8_8_ascii 0
+$rect 2 8 8 pgm_8_8_raw 1
+$rect 2 8 16 pgm_8_16_ascii 0
+$rect 2 8 16 pgm_8_16_raw 1
+$rect 2 16 8 pgm_16_8_ascii 0
+$rect 2 16 8 pgm_16_8_raw 1
+$rect 2 100 100 pgm_100_100_ascii 0
+$rect 2 100 100 pgm_100_100_raw 1
+$rect 2 300 100 pgm_300_100_ascii 0
+$rect 2 300 100 pgm_300_100_raw 1
+$rect 2 100 300 pgm_100_300_ascii 0
+$rect 2 100 300 pgm_100_300_raw 1
+
+$rect 3 120 4 ppm_120_4_ascii 0
+$rect 3 120 4 ppm_120_4_raw 1
+$rect 3 6 120 ppm_6_120_ascii 0
+$rect 3 6 120 ppm_6_120_raw 1
+$rect 3 6 4 ppm_6_4_ascii 0
+$rect 3 6 4 ppm_6_4_raw 1
+$rect 3 12 8 ppm_12_8_ascii 0
+$rect 3 12 8 ppm_12_8_raw 1
+$rect 3 12 16 ppm_12_16_ascii 0
+$rect 3 12 16 ppm_12_16_raw 1
+$rect 3 24 8 ppm_24_8_ascii 0
+$rect 3 24 8 ppm_24_8_raw 1
+$rect 3 120 100 ppm_120_100_ascii 0
+$rect 3 120 100 ppm_120_100_raw 1
+$rect 3 300 100 ppm_300_100_ascii 0
+$rect 3 300 100 ppm_300_100_raw 1
+$rect 3 120 300 ppm_120_300_ascii 0
+$rect 3 120 300 ppm_120_300_raw 1
+

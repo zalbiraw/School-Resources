@@ -1,0 +1,16 @@
+flowcharts/
+	pbm.pdf: contains flowchart for the pbm program, Program-1
+	pgm.pdf: contains flowchart for the pgm program, Program-2
+	ppm.pdf: contains flowchart for the ppm program, Program-3
+
+images: contains image results and tests.sh
+Run tests: sh test.sh
+
+src: contains code
+Compilation command: make
+Run command: ./rectangles [1-3] width(int) height(int) output(str) [0-1]
+	example: ./rectangels 1 200 200 test 0
+
+src/pnm_library: contains Program-3 ppm to pgm program
+Compilation command: make
+Run command: ./ppm_to_pgm

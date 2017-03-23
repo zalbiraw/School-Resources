@@ -1,0 +1,10 @@
+src/ 		contains all files
+src/images/	contains test images
+src/lib/	contains libpnm library source
+
+Make command:
+make
+
+Execution commands:
+./encode ./images/boats.pgm 256 ./output/compressed/boats.256.lz77
+./decode ./output/compressed/boats.256.lz77 ./output/images/boats.256.pgm
