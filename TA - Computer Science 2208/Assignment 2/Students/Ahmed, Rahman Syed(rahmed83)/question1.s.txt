@@ -1,0 +1,54 @@
+
+	AREA a2q1, CODE, READONLY
+	ENTRY
+	
+	ADR r9, STRING1; String pointer
+	ADR r10, STRING2; Empty String pointer
+	
+	;Loads/Reloads the registers with characters from the string
+	LDRB r1, [r9], #1	; Loads the first character into r1
+LOAD	LDRB r2, [r9], #1	;loads the second character into r2
+LOAD2	LDRB r3, [r9], #1	;loads the third character into r3
+	LDRB r4, [r9], #1	;loads the 4th character into r4
+	LDRB r5, [r9], #1	;loads the fifth character into r5
+	BEQ PROCESS	;branches to process. Only used when the EQ flag is set (when a "the" is matched)
+	
+	
+	;Preliminary check on the first 4 characters
+	CMP r4, #0x20	;Checks if the 4th character in the set is a space or EoS 
+	CMPNE r4, #0x00	;(cannot be a "the" at BoS without a EoS or space at character 4
+	CMPEQ r1, #0x74	;Checks the first 4 characters in string for the pattern the(space). 
+	CMPEQ r2, #0x68;Used when there is a "the" at the beginning of the string
+	CMPEQ r3, #0x65	;Checks whether character 3 is an "e"
+	STRBEQ r4, [r10, #1]!;if the pattern is correct, the space is stored in the new string
+	MOVEQ r1, r4	;moves the space in r4 to r1 (as it will be the beginning of the next set of characters to check)
+	MOVEQ r2, r5	;Moves the unused character in r5 to r2
+	BEQ LOAD2;The characters are reloaded into the registers
+	
+	;Checks the set of 5 characters for the pattern
+PROCESS	CMP r1, #0x00	;if the character in r1 is EoS, the program will exit
+	BEQ	FIN	;branches to the end of the program
+	CMP r1, #0x20	;Checks if the first character is a space, as in the pattern (space)the(space) 
+	CMPEQ r5, #0x20	;Checks if the fifth character us a space
+	CMPNE r5, #0x00;or if it is an EoS (the at the very end of the string)
+	CMPEQ r2, #0x74;Checks if the second character is a "t"
+	CMPEQ r3, #0x68;checks if the third character is an "h" 
+	CMPEQ r4, #0x65;checks if the fourth character is an "e"
+	STRBEQ r1, [r10, #1]!	;only the space at r1 is stored to avoid duplicating spaces
+	MOVEQ r1, r5	;the space at r5 is moved to r1
+	BEQ LOAD	;if the pattern matches, reloads the characters in the registers 2-5
+	
+	STRBNE r1, [r10, #1]!	;if the pattern does not match, the first character (r1) is stored in the new string
+	MOV r1, r2	;the position of all characters is shifted by 1 (r2 to r1, r3 to r2, r4 to r3, r5 to r4)
+	MOV r2, r3	;this is done so that the program will not miss any occurrences of the pattern
+	MOV r3, r4	;even if they do not begin at a fifth-multiple position (character #5, 10, 15, 20, etc)
+	MOV r4, r5	;thus the position in the string will move forwards by 1 character every loop
+	LDRB r5, [r9], #1	;r5 is stored with the next character in the string
+	B PROCESS	; the data is processed again to check if there are any occurrences of the pattern
+	
+FIN	NOP	;the end of the program
+STRING1 DCB "them the the1"	;String1
+EoS	DCB	0x00	;end of string1
+STRING2 space 0xFF	;just allocating 255 bytes
+	
+	END

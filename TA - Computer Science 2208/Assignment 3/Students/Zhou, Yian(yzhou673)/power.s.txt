@@ -1,0 +1,87 @@
+		;Code to recursively calculate X^N
+		;Yian (Bob) Zhou  Student Number: 250916082		
+		AREA power, CODE, READONLY
+		ENTRY
+		
+		;47 lines, used spaces around 0x300 in memory map for stack storage
+main	ADR sp, STACK			;create a stack by having sp point to the beginning of the stack allocated space, see around 0x2E3 in memory map
+		STMFD sp!, {r0-r5}		;store the original values for r0 to r5 in the main stack
+
+		MOV r0, #X				;set r0 as X
+		MOV r1, #N				;set r1 as N
+		STMFD sp!, {r0, r1}		;store X and N into the stack (default full descend)
+		SUB sp, sp, #4			;allocate space for return value
+		BL pow					;goto pow(X,N) function
+		
+		LDR r0, [sp], #4		;load the result to r0
+		ADD sp, sp, #4			;add back the spaces allocated to collapse the stack
+		ADR r1, RESULT			;load RESULT's address as r1
+		STR r0, [r1]			;set the result as the content of the RESULT address, see around 0xB0 in memory map
+		
+		LDMIB sp!, {r0-r5}		;load back the original values for r0 - r5
+		;sp is now at the bottom of the stack, if sp is used again (FD), the data used for this program is now garbage data, and is overwritten.
+		;this is essentially clearing the stack
+		B EXIT					;goto exit to terminate
+
+		;pow(X,N) function
+pow		STMFD sp!, {fp, lr}		;push fp and lr
+		STMFD sp!, {r2-r5}		;push working registers r2 to r5, r2 = X, r3 = N, r4 = y, r5 = result
+		MOV fp, sp						;fp is now at the bottom of the frame stack
+		
+		LDR r2, [fp, #0x1C]	;x			;load x from last stack frame into working register r2, there are 28 (0x1C in hex) spaces from fp, since below the fp pointer the stack has r2-r5, pc, lr, and a reserved word (7 words)
+		LDR r3, [fp, #0x20]	;n			;load n from last stack frame into working register r3, 32 spaces from fp
+		
+		
+		;if (n == 0) return 1
+		CMP r3, #0x00					;see if n == 0
+		MOVEQ r5, #1					;if n == 0, then result is 1
+		STREQ r5, [fp, #0x18]				;store 1 into the stack at the appropriate location (would be r4 or return value recursive result)
+		
+		MOVEQ sp, fp					;reverse operation to MOV fp, sp to close stack frame
+		LDMFDEQ sp!, {r2-r5}			;"POP" r2 - r5
+		LDMFDEQ sp!, {fp, pc}			;goto pc or the address where the stack frame is called
+		
+		;if (n & 1) return x * power(x,n-1)
+		TST r3, #1						;see if (n & 1)
+		BEQ else						;(n & 1) is false, then goto else branch
+		SUBNE r3, r3, #1	;n = n-1	;if (n & 1) is true, n = n - 1
+		STMFDNE sp!, {r2, r3}				;store updated variables x and n
+		SUBNE sp, sp, #4					;space for return value
+		BLNE pow							;branch with link to function itself (recursion)
+				
+		LDR r4, [sp], #4				;load the returned value to stack
+		MUL r5, r2, r4					;the returned value (pow(x,n)) multiplied by x, result in r5
+		STR r5, [fp, #0x18]				;store the result into the stack
+		
+		MOV sp, fp						;reverse operation to MOV fp, sp to close stack frame
+		LDMFD sp!, {r2-r5}				;"POP" r2 - r5
+		LDMFD sp!, {fp, pc}				;goto pc or the address where the stack frame is called
+
+
+else	MOV r3, r3, LSR #1				;otherwise, n >> 1
+		STMFD sp!, {r2, r3}				;store updated variables x and n to stack
+		SUB sp, sp, #4					;space for return value
+		BL pow							;recursively call the function
+		LDR r4, [sp], #4				;load returned value pow(x,n>>1) from the stack to r4
+		MUL r5, r4, r4					;multiply returned value by itself and store result in r5
+		STR r5, [fp, #0x18]				;store r5 into the stack
+
+		MOV sp, fp						;reverse operation to MOV fp, sp to close stack frame
+		LDMFD sp!, {r2-r5}				;"POP" r2 - r5
+		LDMFD sp!, {fp, pc}				;goto pc or the address where the stack frame is called
+		
+		
+EXIT	B EXIT							;infinite loop to terminate the program
+
+RESULT	DCD 0x00						;reserve a space for result in memory
+		SPACE 0x300						;reserve 300 spaces for large stack storage capacity (can be changed)
+STACK	DCD 0x00						;stack address will start 300 (arbitrary) spaces after, this allows for stack frame memory storage
+
+X		EQU 2							;x is assigned 2, can be changed
+N		EQU 3							;n is assigned 3, can be changed
+
+;n = 0 has 1 stack frame, n = 1 has 2, n = 2 has 3,
+;n = 3 has 4, n = 4 has 4, n = 5 has 5, n = 6 has 5,
+;n = 7 has 6, n = 8 has 5, n = 9 has 6, n = 10 has 6,
+;n = 11 has 7, and n = 12 has 6 stack frames, excluding the main stacks
+		END

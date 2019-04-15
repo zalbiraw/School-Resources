@@ -1,0 +1,36 @@
+		AREA assign1, CODE, READONLY
+		ENTRY		
+len    		EQU 12                       ; variable for length of UPC number
+ascii		EQU 48                       ; variable for ascii distance from actual int value 
+			LDR r1,=UPC 		         ; 0x07 is location of “0” in UPC
+
+loop		LDRB r3,[r1],#1              ; loading a byte
+			SUB r3,r3,#ascii             ; Remove ASCII value so r2 ==  char value  
+			ADD r4,r4,r3                 ; adds the value to register 3(registar will hold odd indexes)
+			ADD r2,r2,#2
+			CMP r2,#len                  ; compares current index with the end of the UPC
+			BEQ	total
+			LDRB r5,[r1],#1              ; loading the next position (position 2 and first evan index) 
+			SUB r5,r5,#ascii             ; Remove ASCII value so r4  ==  char value  
+			ADD r6,r6,r5                 ; stores evan index in r5
+			B loop                       ; starts loop if r0!=r1
+total	
+			ADD r4,r4,r4,LSL#1           ; r4 + 2r4 UPC requires sum of odds * 3
+			ADD r4,r4,r6               	 ; requires the sum of odds*3 + sum of evan
+			SUB r4,r4,#1                 ; subtract 1 from total UPS standard
+
+div			SUB r4,r4,#10                ; removes 10 form our sum
+			CMP r4,#10                   ; compares new value to see if under 10 yet
+			BPL div                      ; if greater than 10 repeat loop
+
+			RSB r4,#9
+			LDRB r7,[r1],#0              ; loads a bit to store the final UPC index(check digit)
+			SUB r7,r7,#ascii
+			CMP r4,r7                    ; compares remainder with check digit
+			MOVEQ r0,#1                  ; if they are equal store 1 in r0
+			MOVNE r0,#2
+infi		B infi
+
+		AREA assign1, DATA, READONLY
+UPC     DCB "060383755577" ;UPC string
+		END
