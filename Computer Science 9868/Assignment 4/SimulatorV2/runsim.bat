@@ -1,1 +1,0 @@
-java -classpath .;SimulatorV2.jar Simulator %*
