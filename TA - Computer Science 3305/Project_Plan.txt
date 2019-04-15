@@ -1,0 +1,16 @@
+Assignment #1: Mini Shell
+Topics: fork, wait, exec, pipe
+
+This will be a simple program that will execute different commands by implementing shell forking and piping as well as using the exec command to utilize the default system programs (sort, cd, etc..)
+
+Assignment #2: Resource Management
+Topics: threads
+
+For this assignment students will implement a new shell operator that will handle threads. Furthermore, a file will be provided that will allow the system to simulate memory management. Different programs will have different overhead values. Since the simulator will have a finite amount of memory to work with. It will have to keep track of how much memory is in use. This program will not work correctly of course once multiple threads are modifying the memory value at the same time. This will be left for the students to ponder until the third assignment. (Students will only be evaluated on the correct implementation of threads and will be encouraged to figure out the problem that the multiple threads will be causing)
+
+Assignment #3: Scheduler
+Topics: scheduler, mutices
+
+This assignment will solve the memory issue from the second assignment by using mutices. Students will also need to implement a simulated scheduler that will be applied to different programs. Different programs will be assigned different priorities and students will have to schedule their execution based on the priority and the available memory.
+
+Lastly, all assignments will provide a structured program where students will only need to write the core code. Furthermore, every assignment will have its own set of tests that the students will be capable of running to determine if their program is working as expected or not. Students will be encouraged to write their own test files as the provided tests might not cover all cases.  

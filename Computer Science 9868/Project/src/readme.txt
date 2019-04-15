@@ -1,0 +1,3 @@
+- Use the command "make" create the executables
+- Launch simulator using the command "./simulator"
+- input file contains the intial structure of the network. The network needs at least 2 processors and 2 keys to run. 
