@@ -1,0 +1,9 @@
+Mode IDENT
+
+RandRing 10
+
+LoadAlgorithm CountProcessorsRing
+
+RoundTime 500
+
+GUILayout ring

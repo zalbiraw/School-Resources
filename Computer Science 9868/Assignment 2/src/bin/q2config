@@ -1,0 +1,15 @@
+Mode Identical
+GUILayout line
+
+AddNode 10: 0 7
+AddNode 7: 10 41 
+AddNode 41: 7 13
+AddNode 13: 41 22 
+AddNode 22: 13 8
+AddNode 8: 22 37
+AddNode 37: 8 1
+AddNode 1: 37 0
+
+LoadAlgorithm LeaderElectionLine
+
+RoundTime 300
